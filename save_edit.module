@@ -78,6 +78,24 @@ function save_edit_form_submit_presave(&$form, FormStateInterface $form_state) {
  * We want to override the default redirect that was set in the saving process.
  */
 function save_edit_form_submit_redirect(&$form, FormStateInterface $form_state) {
+
+ /* @var $request \Symfony\Component\HttpFoundation\Request */
+  $request = \Drupal::request();
+
+  /* @var $parameterBag \Symfony\Component\HttpFoundation\ParameterBag */
+  $parameterBag = $request->query;
+
+  $destination = $parameterBag->get('destination');
+
+  $parameterBag->remove('destination');
+
+  /* @var $entity \Drupal\node\NodeInterface */
   $entity = $form_state->getFormObject()->getEntity();
-  $form_state->setRedirectUrl($entity->toUrl('edit-form'));
+
+  /* @var $url \Drupal\Core\Url */
+  $url = $entity->toUrl('edit-form');
+
+  $url->setOption('query', ['destination' => $destination]);
+
+  $form_state->setRedirectUrl($url);
 }
