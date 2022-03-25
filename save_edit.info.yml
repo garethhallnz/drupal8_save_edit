@@ -4,3 +4,4 @@ description: Gives a "Save & Edit" button on node pages.
 core: 8.x
 package: Custom
 configure: save_edit.save_edit_settings_form
+core_version_requirement: ^8 || ^9
